@@ -103,7 +103,8 @@
                                 change: function( e, ui ) {
                                     $( this ).val( ui.color.toString() );
                                     redux.field_objects.typography.select( $( this ) );
-                                }
+                                },
+                                palettes: rps_typography_color_palette
                             }
                         );
 

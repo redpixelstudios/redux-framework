@@ -72,6 +72,7 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
                 'font-variant'    => false,
                 'text-decoration' => false,
                 'color'           => true,
+                'palette'         => true,
                 'preview'         => true,
                 'line-height'     => true,
                 'multi' => array(
@@ -153,6 +154,15 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
             if ( empty( $this->field['units'] ) && ! empty( $this->field['default']['units'] ) ) {
                 $this->field['units'] = $this->field['default']['units'];
             }
+            
+            if  (isset( $this->field['palette'] ) and is_array( $this->field['palette'] ) and !empty( $this->field['palette'] ) ) {
+	            error_log(print_r($this->field['palette'], true));
+	            wp_localize_script(
+	                'redux-field-typography-js',
+	                'rps_typography_color_palette',
+	                $this->field['palette']
+	            );
+	        }
 
             if ( empty( $this->field['units'] ) || ! in_array( $this->field['units'], array(
                     'px',
