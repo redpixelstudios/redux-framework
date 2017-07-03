@@ -8,6 +8,9 @@
  *
  * Rewrite:             Kevin Provance (kprovance)
  * Date:                May 25, 2014
+ *
+ * Rewrite:             Gustavo Molina (gustavoarielms) - http://redpixel.com
+ * Date:                July 3, 2017
  */
 
 (function( $ ) {

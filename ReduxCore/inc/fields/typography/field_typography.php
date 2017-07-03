@@ -14,6 +14,9 @@
  * - getVariants()
  * Classes list:
  * - ReduxFramework_typography
+ *
+ * Rewrite:             Gustavo Molina (gustavoarielms) - http://redpixel.com
+ * Date:                July 3, 2017
  */
 
 if ( ! class_exists( 'ReduxFramework_typography' ) ) {
