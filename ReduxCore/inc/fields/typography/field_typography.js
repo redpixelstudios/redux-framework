@@ -101,15 +101,25 @@
                         );
 
                         // Have to redeclare the wpColorPicker to get a callback function
-                        $( this ).find( '.redux-typography-color' ).wpColorPicker(
-                            {
-                                change: function( e, ui ) {
-                                    $( this ).val( ui.color.toString() );
-                                    redux.field_objects.typography.select( $( this ) );
-                                },
-                                palettes: rps_typography_color_palette
-                            }
-                        );
+                        if(typeof rps_typography_color_palette !== 'undefined')
+	                        $( this ).find( '.redux-typography-color' ).wpColorPicker(
+	                            {
+	                                change: function( e, ui ) {
+	                                    $( this ).val( ui.color.toString() );
+	                                    redux.field_objects.typography.select( $( this ) );
+	                                },
+	                                palettes: rps_typography_color_palette
+	                            }
+	                        );
+	                    else
+	                        $( this ).find( '.redux-typography-color' ).wpColorPicker(
+	                            {
+	                                change: function( e, ui ) {
+	                                    $( this ).val( ui.color.toString() );
+	                                    redux.field_objects.typography.select( $( this ) );
+	                                }
+	                            }
+	                        );
 
                         // Don't allow negative numbers for size field
                         $( this ).find( ".redux-typography-size" ).numeric(
@@ -265,6 +275,21 @@
                         el.find(
                             ".redux-typography-family-backup, .redux-typography-align, .redux-typography-transform, .redux-typography-font-variant, .redux-typography-decoration"
                         ).select2( default_params );
+                        
+                        // When redux-typography-height-same-as-size change
+                        el.find('.redux-typography-height-same-as-size').on(
+			                'change', function(){
+				                var value = 1;
+				                if($(this).prop( "checked")){
+									value = 1;
+				                }
+				                else{
+									value = 0;
+				                }
+				                el.find('.typography-height-same-as-size').val(value)
+				                $( this ).val( value );
+			                }
+		                );
 
                     }
                 );
@@ -347,6 +372,7 @@
         var familyBackup = $( '#' + mainID + ' select.redux-typography-family-backup' ).val();
         var size = $( '#' + mainID + ' .redux-typography-size' ).val();
         var height = $( '#' + mainID + ' .redux-typography-height' ).val();
+        var height_same_as_size = ($( '#' + mainID + ' .redux-typography-height-same-as-size' ).attr('checked') == 'checked')? true:false;
         var word = $( '#' + mainID + ' .redux-typography-word' ).val();
         var letter = $( '#' + mainID + ' .redux-typography-letter' ).val();
         var align = $( '#' + mainID + ' select.redux-typography-align' ).val();
@@ -572,8 +598,8 @@
         }
 
         $( '#' + mainID + ' .typography-font-weight' ).val( style );
-
-        if ( !height ) {
+        
+        if ( height_same_as_size && (!height || height === '') ) {
             height = size;
         }
 

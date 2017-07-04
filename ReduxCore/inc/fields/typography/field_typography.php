@@ -78,6 +78,7 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
                 'palette'         => true,
                 'preview'         => true,
                 'line-height'     => true,
+                'height-same-as-size'     => false,
                 'multi' => array(
                     'subset' => false,
                     'weight' => false,
@@ -109,7 +110,9 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
                 'font-style'      => '',
                 'color'           => '',
                 'font-size'       => '',
+                'height-same-as-size'     => false,
             );
+            
             $this->value = wp_parse_args( $this->value, $defaults );
 
             // Get the google array
@@ -159,7 +162,6 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
             }
             
             if  (isset( $this->field['palette'] ) and is_array( $this->field['palette'] ) and !empty( $this->field['palette'] ) ) {
-	            error_log(print_r($this->field['palette'], true));
 	            wp_localize_script(
 	                'redux-field-typography-js',
 	                'rps_typography_color_palette',
@@ -456,6 +458,7 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
                 echo '<input type="hidden" class="typography-line-height" name="' . $this->field['name'] . $this->field['name_suffix'] . '[line-height]' . '" value="' . $this->value['line-height'] . '" data-id="' . $this->field['id'] . '"  />';
                 echo '</div>';
             }
+            
 
             /* Word Spacing */
             if ( $this->field['word-spacing'] === true ) {
@@ -474,6 +477,18 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
                 echo '<input type="hidden" class="typography-letter-spacing" name="' . $this->field['name'] . $this->field['name_suffix'] . '[letter-spacing]' . '" value="' . $this->value['letter-spacing'] . '" data-id="' . $this->field['id'] . '"  />';
                 echo '</div>';
             }
+               
+            if (isset( $this->field['height-same-as-size'] ) && $this->field['height-same-as-size'] !== false ) {
+            	echo '<div class="clearfix"></div>';
+                $tChecked = "";
+                $value = "0";
+                if ( isset($this->value['height-same-as-size']) && ($this->value['height-same-as-size'] === '1' || $this->value['height-same-as-size'] === true)) {
+                    $tChecked = ' checked="checked"';
+                    $value = "1";
+                }
+                echo '<label for="' . $this->field['id'] . '-height-same-as-size" class="height-same-as-size-check"><input type="checkbox" class="checkbox redux-typography-height-same-as-size ' . $this->field['class'] . '" id="' . $this->field['id'] . '-height-same-as-size" data-id="' . $this->field['id'] . '-height-same-as-size" value="' . $value . '"' . $tChecked . '> ' . __( 'Line Height same as Font Size', 'redux-framework' ) . '</label>';
+                echo '<input type="hidden" class="typography-height-same-as-size" name="' . $this->field['name'] . $this->field['name_suffix'] . '[height-same-as-size]' . '" value="' . $this->value['height-same-as-size'] . '" data-id="' . $this->field['id'] . '"  />';
+            }            
 
             echo '<div class="clearfix"></div>';
 
