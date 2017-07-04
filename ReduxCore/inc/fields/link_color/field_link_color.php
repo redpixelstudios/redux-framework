@@ -54,7 +54,8 @@ if ( ! class_exists( 'ReduxFramework_link_color' ) ) {
                 'hover'   => true,
                 'visited' => false,
                 'active'  => true,
-                'focus'   => false
+                'focus'   => false,
+                'palette' => true,
             );
             $this->field = wp_parse_args( $this->field, $defaults );
 
@@ -85,6 +86,14 @@ if ( ! class_exists( 'ReduxFramework_link_color' ) ) {
          * @return      void
          */
         public function render() {
+	        
+	        if  (isset( $this->field['palette'] ) and is_array( $this->field['palette'] ) and !empty( $this->field['palette'] ) ) {
+	            wp_localize_script(
+	                'redux-field-link-color-js',
+	                'rps_link_color_palette',
+	                $this->field['palette']
+	            );
+	        }
 
             if ( $this->field['regular'] === true && $this->field['default']['regular'] !== false ) {
                 echo '<span class="linkColor"><strong>' . __( 'Regular', 'redux-framework' ) . '</strong>&nbsp;<input id="' . $this->field['id'] . '-regular" name="' . $this->field['name'] . $this->field['name_suffix'] . '[regular]' . '" value="' . $this->value['regular'] . '" class="redux-color redux-color-regular redux-color-init ' . $this->field['class'] . '"  type="text" data-default-color="' . $this->field['default']['regular'] . '" /></span>';

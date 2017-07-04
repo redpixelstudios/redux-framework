@@ -49,7 +49,8 @@
                         clear: function( e, ui ) {
                             $( this ).val( ui.color.toString() );
                             redux_change( $( this ).parent().find( '.redux-color-init' ) );
-                        }
+                        },
+                        palettes: rps_link_color_palette
                     }
                 );
 
